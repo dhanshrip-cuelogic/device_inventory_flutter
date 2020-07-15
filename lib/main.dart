@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'SignIn.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,6 +14,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(),
+      routes: {
+        '/signInPage': (BuildContext context) => SignInPage(),
+      },
     );
   }
 }
@@ -23,6 +27,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<String> _users = ['Admin', 'Employee'];
+
+  void _redirectToSignInPage() {
+    Navigator.pushNamed(context, '/signInPage');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +40,21 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         title: Text('HomeScreen'),
       ),
-      body: Center(),
+      body: Center(
+        child: ListView.separated(
+          itemCount: _users.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              leading: Icon(Icons.accessibility),
+              title: Text(_users[index]),
+              onTap: () {
+                _redirectToSignInPage();
+              },
+            );
+          },
+          separatorBuilder: (context, index) => Divider(),
+        ),
+      ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
